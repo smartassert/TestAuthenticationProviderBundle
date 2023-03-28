@@ -12,3 +12,6 @@ services:
 
     SmartAssert\TestAuthenticationProviderBundle\UserProvider:
         public: true
+
+    SmartAssert\TestAuthenticationProviderBundle\ApiTokenProvider:
+        public: true
