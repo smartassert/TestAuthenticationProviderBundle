@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SmartAssert\TestAuthenticationProviderBundle\Tests;
+namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Functional;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
