@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Functional;
 
 use PHPUnit\Framework\TestCase;
+use SmartAssert\TestAuthenticationProviderBundle\UserProvider;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContainerTest extends TestCase
@@ -21,8 +22,25 @@ class ContainerTest extends TestCase
         $this->container = $kernel->getContainer();
     }
 
-    public function testKernelIsBooted(): void
+    /**
+     * @dataProvider serviceExistsInContainerDataProvider
+     *
+     * @param class-string $id
+     */
+    public function testServiceExistsInContainer(string $id): void
     {
-        self::assertInstanceOf(ContainerInterface::class, $this->container);
+        self::assertInstanceOf($id, $this->container->get($id));
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function serviceExistsInContainerDataProvider(): array
+    {
+        return [
+            UserProvider::class => [
+                'id' => UserProvider::class,
+            ],
+        ];
     }
 }

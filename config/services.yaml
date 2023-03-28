@@ -1,0 +1,14 @@
+parameters:
+    test_authentication_provider_bundle_frontend_token_provider_users: []
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider:
+        arguments:
+            $userCredentials: '%test_authentication_provider_bundle_frontend_token_provider_users%'
+
+    SmartAssert\TestAuthenticationProviderBundle\UserProvider:
+        public: true
