@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SmartAssert\TestAuthenticationProviderBundle\Tests;
+namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Functional;
 
 use SmartAssert\TestAuthenticationProviderBundle\TestAuthenticationProviderBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
