@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Functional;
 
 use PHPUnit\Framework\TestCase;
+use SmartAssert\TestAuthenticationProviderBundle\ApiTokenProvider;
 use SmartAssert\TestAuthenticationProviderBundle\UserProvider;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -40,6 +41,9 @@ class ContainerTest extends TestCase
         return [
             UserProvider::class => [
                 'id' => UserProvider::class,
+            ],
+            ApiTokenProvider::class => [
+                'id' => ApiTokenProvider::class,
             ],
         ];
     }
