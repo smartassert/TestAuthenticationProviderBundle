@@ -20,7 +20,7 @@ class FrontendTokenProvider
     private array $frontendTokens = [];
 
     /**
-     * @param array{non-empty-string: non-empty-string} $userCredentials
+     * @param array<non-empty-string, non-empty-string> $userCredentials
      */
     public function __construct(
         private readonly array $userCredentials,
