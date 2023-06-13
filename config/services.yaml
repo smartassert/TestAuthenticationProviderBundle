@@ -6,6 +6,8 @@ services:
         autowire: true
         autoconfigure: true
 
+    SmartAssert\ServiceClient\ExceptionFactory\CurlExceptionFactory: ~
+
     SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider:
         arguments:
             $userCredentials: '%test_authentication_provider_bundle_frontend_token_provider_users%'
