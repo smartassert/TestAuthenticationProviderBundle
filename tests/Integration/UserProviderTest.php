@@ -42,7 +42,7 @@ class UserProviderTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function getSuccessDataProvider(): array
+    public static function getSuccessDataProvider(): array
     {
         return [
             'user1' => [
