@@ -71,16 +71,20 @@ class ApiTokenProvider
                 $apiKeys = $this->usersClient->listUserApiKeys(
                     $this->frontendTokenProvider->get($userEmail)
                 );
+
+                $apiKey = $apiKeys->getDefault();
+                if (null === $apiKey) {
+                    throw new \RuntimeException('API key is null');
+                }
+
+                $this->apiKeys[$userEmail] = $apiKey;
+            } catch (\RuntimeException $e) {
+                if ('Invalid user credentials.' === $e->getMessage()) {
+                    throw new \RuntimeException('API key is null');
+                }
             } catch (NonSuccessResponseException $e) {
                 throw new \RuntimeException('API key is null');
             }
-
-            $apiKey = $apiKeys->getDefault();
-            if (null === $apiKey) {
-                throw new \RuntimeException('API key is null');
-            }
-
-            $this->apiKeys[$userEmail] = $apiKey;
         }
 
         return $this->apiKeys[$userEmail];
