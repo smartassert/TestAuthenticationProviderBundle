@@ -10,42 +10,47 @@ use SmartAssert\ServiceClient\Exception\InvalidResponseDataException;
 use SmartAssert\ServiceClient\Exception\InvalidResponseTypeException;
 use SmartAssert\ServiceClient\Exception\NonSuccessResponseException;
 use SmartAssert\UsersClient\Client;
-use SmartAssert\UsersClient\Model\Token;
+use SmartAssert\UsersClient\Model\ApiKey;
 
-class ApiTokenProvider
+class ApiKeyProvider
 {
     /**
-     * @var Token[]
+     * @var ApiKey[]
      */
-    private array $apiTokens = [];
+    private array $apiKeys = [];
 
     public function __construct(
         private readonly Client $usersClient,
-        private readonly ApiKeyProvider $apiKeyProvider,
+        private readonly FrontendTokenProvider $frontendTokenProvider,
     ) {
     }
 
     /**
      * @param non-empty-string $userEmail
      *
-     * @return non-empty-string
-     *
      * @throws ClientExceptionInterface
      * @throws InvalidModelDataException
      * @throws InvalidResponseDataException
      * @throws InvalidResponseTypeException
-     * @throws NonSuccessResponseException
      */
-    public function get(string $userEmail): string
+    public function get(string $userEmail): ApiKey
     {
-        if (!array_key_exists($userEmail, $this->apiTokens)) {
-            $apiToken = $this->usersClient->createApiToken(
-                $this->apiKeyProvider->get($userEmail)->key
-            );
+        if (!array_key_exists($userEmail, $this->apiKeys)) {
+            try {
+                $apiKey = $this->usersClient->getUserDefaultApiKey(
+                    $this->frontendTokenProvider->get($userEmail)
+                );
+            } catch (NonSuccessResponseException) {
+                throw new \RuntimeException('API key is null');
+            }
 
-            $this->apiTokens[$userEmail] = $apiToken;
+            if (null === $apiKey) {
+                throw new \RuntimeException('API key is null');
+            }
+
+            $this->apiKeys[$userEmail] = $apiKey;
         }
 
-        return $this->apiTokens[$userEmail]->token;
+        return $this->apiKeys[$userEmail];
     }
 }

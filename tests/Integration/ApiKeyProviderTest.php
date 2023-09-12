@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use SmartAssert\TestAuthenticationProviderBundle\ApiTokenProvider;
+use SmartAssert\TestAuthenticationProviderBundle\ApiKeyProvider;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
+use SmartAssert\UsersClient\Model\ApiKey;
 
-class ApiTokenProviderTest extends TestCase
+class ApiKeyProviderTest extends TestCase
 {
-    private ApiTokenProvider $apiTokenProvider;
+    private ApiKeyProvider $apiKeyProvider;
 
     protected function setUp(): void
     {
@@ -21,9 +22,9 @@ class ApiTokenProviderTest extends TestCase
 
         $container = $kernel->getContainer();
 
-        $userProvider = $container->get(ApiTokenProvider::class);
-        \assert($userProvider instanceof ApiTokenProvider);
-        $this->apiTokenProvider = $userProvider;
+        $apiKeyProvider = $container->get(ApiKeyProvider::class);
+        \assert($apiKeyProvider instanceof ApiKeyProvider);
+        $this->apiKeyProvider = $apiKeyProvider;
     }
 
     /**
@@ -33,9 +34,9 @@ class ApiTokenProviderTest extends TestCase
      */
     public function testGetSuccess(string $userEmail): void
     {
-        $apiToken = $this->apiTokenProvider->get($userEmail);
+        $apiKey = $this->apiKeyProvider->get($userEmail);
 
-        self::assertIsString($apiToken);
+        self::assertInstanceOf(ApiKey::class, $apiKey);
     }
 
     /**
@@ -56,7 +57,7 @@ class ApiTokenProviderTest extends TestCase
     public function testGetUserNotDefined(): void
     {
         try {
-            $this->apiTokenProvider->get('undefined@example.com');
+            $this->apiKeyProvider->get('undefined@example.com');
             self::fail('\\RuntimeException not thrown');
         } catch (\RuntimeException $e) {
             self::assertSame('Invalid user credentials.', $e->getMessage());
