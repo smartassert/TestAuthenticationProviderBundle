@@ -49,10 +49,6 @@ class ApiTokenProvider
                 $this->getApiKey($userEmail)->key
             );
 
-            if (null === $apiToken) {
-                throw new \RuntimeException('Valid API token is null');
-            }
-
             $this->apiTokens[$userEmail] = $apiToken;
         }
 
