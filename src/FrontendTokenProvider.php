@@ -35,15 +35,18 @@ class FrontendTokenProvider
      * @throws InvalidModelDataException
      * @throws InvalidResponseDataException
      * @throws InvalidResponseTypeException
-     * @throws NonSuccessResponseException
      */
     public function get(string $userEmail): RefreshableToken
     {
         if (!array_key_exists($userEmail, $this->frontendTokens)) {
-            $this->frontendTokens[$userEmail] = $this->usersClient->createFrontendToken(
-                $userEmail,
-                $this->userCredentials[$userEmail] ?? ''
-            );
+            try {
+                $this->frontendTokens[$userEmail] = $this->usersClient->createFrontendToken(
+                    $userEmail,
+                    $this->userCredentials[$userEmail] ?? ''
+                );
+            } catch (NonSuccessResponseException $e) {
+                throw new \RuntimeException('Invalid user credentials.');
+            }
         }
 
         return $this->frontendTokens[$userEmail];

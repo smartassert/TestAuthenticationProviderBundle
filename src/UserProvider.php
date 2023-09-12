@@ -39,7 +39,7 @@ class UserProvider
     {
         try {
             $frontendToken = $this->frontendTokenProvider->get($userEmail);
-        } catch (NonSuccessResponseException $e) {
+        } catch (\RuntimeException) {
             throw new \RuntimeException('User is null');
         }
 
