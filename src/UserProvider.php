@@ -44,7 +44,7 @@ class UserProvider
         }
 
         if (!array_key_exists($userEmail, $this->users)) {
-            $user = $this->usersClient->verifyFrontendToken($frontendToken);
+            $user = $this->usersClient->verifyFrontendToken($frontendToken->token);
 
             if (null === $user) {
                 throw new \RuntimeException('User is null');

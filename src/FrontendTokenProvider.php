@@ -10,6 +10,7 @@ use SmartAssert\ServiceClient\Exception\InvalidResponseDataException;
 use SmartAssert\ServiceClient\Exception\InvalidResponseTypeException;
 use SmartAssert\ServiceClient\Exception\NonSuccessResponseException;
 use SmartAssert\UsersClient\Client;
+use SmartAssert\UsersClient\Exception\UnauthorizedException;
 use SmartAssert\UsersClient\Model\RefreshableToken;
 
 class FrontendTokenProvider
@@ -44,7 +45,7 @@ class FrontendTokenProvider
                     $userEmail,
                     $this->userCredentials[$userEmail] ?? ''
                 );
-            } catch (NonSuccessResponseException $e) {
+            } catch (NonSuccessResponseException | UnauthorizedException) {
                 throw new \RuntimeException('Invalid user credentials.');
             }
         }
