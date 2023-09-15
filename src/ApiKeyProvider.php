@@ -10,6 +10,7 @@ use SmartAssert\ServiceClient\Exception\InvalidResponseDataException;
 use SmartAssert\ServiceClient\Exception\InvalidResponseTypeException;
 use SmartAssert\ServiceClient\Exception\NonSuccessResponseException;
 use SmartAssert\UsersClient\Client;
+use SmartAssert\UsersClient\Exception\UnauthorizedException;
 use SmartAssert\UsersClient\Model\ApiKey;
 
 class ApiKeyProvider
@@ -38,9 +39,9 @@ class ApiKeyProvider
         if (!array_key_exists($userEmail, $this->apiKeys)) {
             try {
                 $apiKey = $this->usersClient->getUserDefaultApiKey(
-                    $this->frontendTokenProvider->get($userEmail)
+                    $this->frontendTokenProvider->get($userEmail)->token
                 );
-            } catch (NonSuccessResponseException) {
+            } catch (NonSuccessResponseException | UnauthorizedException) {
                 throw new \RuntimeException('API key is null');
             }
 
