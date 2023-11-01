@@ -10,6 +10,7 @@ use SmartAssert\ServiceClient\Exception\InvalidResponseDataException;
 use SmartAssert\ServiceClient\Exception\InvalidResponseTypeException;
 use SmartAssert\ServiceClient\Exception\NonSuccessResponseException;
 use SmartAssert\UsersClient\Client;
+use SmartAssert\UsersClient\Exception\UnauthorizedException;
 use SmartAssert\UsersClient\Model\Token;
 
 class ApiTokenProvider
@@ -35,6 +36,7 @@ class ApiTokenProvider
      * @throws InvalidResponseDataException
      * @throws InvalidResponseTypeException
      * @throws NonSuccessResponseException
+     * @throws UnauthorizedException
      */
     public function get(string $userEmail): string
     {
