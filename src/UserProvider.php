@@ -21,7 +21,7 @@ class UserProvider
 
     public function __construct(
         private readonly Client $usersClient,
-        private readonly FrontendTokenProvider $frontendTokenProvider,
+        private readonly FrontendCredentialsProvider $frontendTokenProvider,
     ) {
     }
 

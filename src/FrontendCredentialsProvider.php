@@ -9,14 +9,14 @@ use SmartAssert\ServiceClient\Exception\InvalidModelDataException;
 use SmartAssert\ServiceClient\Exception\InvalidResponseDataException;
 use SmartAssert\ServiceClient\Exception\InvalidResponseTypeException;
 use SmartAssert\ServiceClient\Exception\NonSuccessResponseException;
+use SmartAssert\ServiceClient\Exception\UnauthorizedException;
 use SmartAssert\UsersClient\Client;
-use SmartAssert\UsersClient\Exception\UnauthorizedException;
-use SmartAssert\UsersClient\Model\RefreshableToken;
+use SmartAssert\UsersClient\Model\FrontendCredentials;
 
-class FrontendTokenProvider
+class FrontendCredentialsProvider
 {
     /**
-     * @var RefreshableToken[]
+     * @var FrontendCredentials[]
      */
     private array $frontendTokens = [];
 
@@ -37,11 +37,11 @@ class FrontendTokenProvider
      * @throws InvalidResponseDataException
      * @throws InvalidResponseTypeException
      */
-    public function get(string $userEmail): RefreshableToken
+    public function get(string $userEmail): FrontendCredentials
     {
         if (!array_key_exists($userEmail, $this->frontendTokens)) {
             try {
-                $this->frontendTokens[$userEmail] = $this->usersClient->createFrontendToken(
+                $this->frontendTokens[$userEmail] = $this->usersClient->createFrontendCredentials(
                     $userEmail,
                     $this->userCredentials[$userEmail] ?? ''
                 );
