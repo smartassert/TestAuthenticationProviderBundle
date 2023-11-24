@@ -22,7 +22,7 @@ class ApiKeyProvider
 
     public function __construct(
         private readonly Client $usersClient,
-        private readonly FrontendCredentialsProvider $frontendTokenProvider,
+        private readonly FrontendTokenProvider $frontendTokenProvider,
     ) {
     }
 

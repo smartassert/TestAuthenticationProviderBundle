@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use SmartAssert\TestAuthenticationProviderBundle\FrontendCredentialsProvider;
+use SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
-use SmartAssert\UsersClient\Model\FrontendCredentials;
+use SmartAssert\UsersClient\Model\RefreshableToken;
 
-class FrontendCredentialsProviderTest extends TestCase
+class FrontendTokenProviderTest extends TestCase
 {
-    private FrontendCredentialsProvider $provider;
+    private FrontendTokenProvider $provider;
 
     protected function setUp(): void
     {
@@ -22,8 +22,8 @@ class FrontendCredentialsProviderTest extends TestCase
 
         $container = $kernel->getContainer();
 
-        $provider = $container->get(FrontendCredentialsProvider::class);
-        \assert($provider instanceof FrontendCredentialsProvider);
+        $provider = $container->get(FrontendTokenProvider::class);
+        \assert($provider instanceof FrontendTokenProvider);
         $this->provider = $provider;
     }
 
@@ -36,7 +36,7 @@ class FrontendCredentialsProviderTest extends TestCase
     {
         $frontendToken = $this->provider->get($userEmail);
 
-        self::assertInstanceOf(FrontendCredentials::class, $frontendToken);
+        self::assertInstanceOf(RefreshableToken::class, $frontendToken);
     }
 
     /**
