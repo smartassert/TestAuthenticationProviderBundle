@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use SmartAssert\TestAuthenticationProviderBundle\FrontendCredentialsProvider;
+use SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
-use SmartAssert\UsersClient\Model\FrontendCredentials;
+use SmartAssert\UsersClient\Model\RefreshableToken;
 
-class FrontendCredentialsProviderTest extends TestCase
+class FrontendTokenProviderTest extends TestCase
 {
-    private FrontendCredentialsProvider $provider;
+    private FrontendTokenProvider $frontendTokenProvider;
 
     protected function setUp(): void
     {
@@ -22,9 +22,9 @@ class FrontendCredentialsProviderTest extends TestCase
 
         $container = $kernel->getContainer();
 
-        $provider = $container->get(FrontendCredentialsProvider::class);
-        \assert($provider instanceof FrontendCredentialsProvider);
-        $this->provider = $provider;
+        $userProvider = $container->get(FrontendTokenProvider::class);
+        \assert($userProvider instanceof FrontendTokenProvider);
+        $this->frontendTokenProvider = $userProvider;
     }
 
     /**
@@ -34,9 +34,9 @@ class FrontendCredentialsProviderTest extends TestCase
      */
     public function testGetSuccess(string $userEmail): void
     {
-        $frontendToken = $this->provider->get($userEmail);
+        $frontendToken = $this->frontendTokenProvider->get($userEmail);
 
-        self::assertInstanceOf(FrontendCredentials::class, $frontendToken);
+        self::assertInstanceOf(RefreshableToken::class, $frontendToken);
     }
 
     /**
@@ -57,7 +57,7 @@ class FrontendCredentialsProviderTest extends TestCase
     public function testGetUserNotDefined(): void
     {
         try {
-            $this->provider->get('undefined@example.com');
+            $this->frontendTokenProvider->get('undefined@example.com');
             self::fail('\\RuntimeException not thrown');
         } catch (\RuntimeException $e) {
             self::assertSame('Invalid user credentials.', $e->getMessage());
