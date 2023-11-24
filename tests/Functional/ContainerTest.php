@@ -7,7 +7,7 @@ namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Functional;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\TestAuthenticationProviderBundle\ApiKeyProvider;
 use SmartAssert\TestAuthenticationProviderBundle\ApiTokenProvider;
-use SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider;
+use SmartAssert\TestAuthenticationProviderBundle\FrontendCredentialsProvider;
 use SmartAssert\TestAuthenticationProviderBundle\UserProvider;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -47,8 +47,8 @@ class ContainerTest extends TestCase
             ApiTokenProvider::class => [
                 'id' => ApiTokenProvider::class,
             ],
-            FrontendTokenProvider::class => [
-                'id' => FrontendTokenProvider::class,
+            FrontendCredentialsProvider::class => [
+                'id' => FrontendCredentialsProvider::class,
             ],
             ApiKeyProvider::class => [
                 'id' => ApiKeyProvider::class,
