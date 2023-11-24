@@ -8,7 +8,7 @@ services:
 
     SmartAssert\ServiceClient\ExceptionFactory\CurlExceptionFactory: ~
 
-    SmartAssert\TestAuthenticationProviderBundle\FrontendCredentialsProvider:
+    SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider:
         arguments:
             $userCredentials: '%test_authentication_provider_bundle_frontend_token_provider_users%'
         public: true
