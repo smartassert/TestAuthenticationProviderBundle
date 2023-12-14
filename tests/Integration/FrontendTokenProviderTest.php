@@ -7,7 +7,6 @@ namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
-use SmartAssert\UsersClient\Model\RefreshableToken;
 
 class FrontendTokenProviderTest extends TestCase
 {
@@ -36,7 +35,9 @@ class FrontendTokenProviderTest extends TestCase
     {
         $frontendToken = $this->provider->get($userEmail);
 
-        self::assertInstanceOf(RefreshableToken::class, $frontendToken);
+        self::assertIsArray($frontendToken);
+        self::assertNotEmpty($frontendToken['token']);
+        self::assertNotEmpty($frontendToken['refresh_token']);
     }
 
     /**

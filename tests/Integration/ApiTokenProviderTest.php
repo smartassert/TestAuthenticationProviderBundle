@@ -59,7 +59,7 @@ class ApiTokenProviderTest extends TestCase
             $this->apiTokenProvider->get('undefined@example.com');
             self::fail('\\RuntimeException not thrown');
         } catch (\RuntimeException $e) {
-            self::assertSame('Invalid user credentials.', $e->getMessage());
+            self::assertSame('User is null', $e->getMessage());
         }
     }
 }

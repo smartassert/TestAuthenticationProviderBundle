@@ -7,7 +7,6 @@ namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\TestAuthenticationProviderBundle\ApiKeyProvider;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
-use SmartAssert\UsersClient\Model\ApiKey;
 
 class ApiKeyProviderTest extends TestCase
 {
@@ -36,7 +35,9 @@ class ApiKeyProviderTest extends TestCase
     {
         $apiKey = $this->apiKeyProvider->get($userEmail);
 
-        self::assertInstanceOf(ApiKey::class, $apiKey);
+        self::assertIsArray($apiKey);
+        self::assertArrayHasKey('label', $apiKey);
+        self::assertNotEmpty($apiKey['key']);
     }
 
     /**
@@ -60,7 +61,7 @@ class ApiKeyProviderTest extends TestCase
             $this->apiKeyProvider->get('undefined@example.com');
             self::fail('\\RuntimeException not thrown');
         } catch (\RuntimeException $e) {
-            self::assertSame('Invalid user credentials.', $e->getMessage());
+            self::assertSame('User is null', $e->getMessage());
         }
     }
 }

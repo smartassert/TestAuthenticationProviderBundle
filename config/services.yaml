@@ -1,5 +1,6 @@
 parameters:
     test_authentication_provider_bundle_frontend_token_provider_users: []
+    test_authentication_provider_bundle_users_url: ''
 
 services:
     _defaults:
@@ -10,14 +11,22 @@ services:
 
     SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider:
         arguments:
+            $baseUrl: '%test_authentication_provider_bundle_users_url%'
             $userCredentials: '%test_authentication_provider_bundle_frontend_token_provider_users%'
+
         public: true
 
     SmartAssert\TestAuthenticationProviderBundle\UserProvider:
         public: true
+        arguments:
+            $baseUrl: '%test_authentication_provider_bundle_users_url%'
 
     SmartAssert\TestAuthenticationProviderBundle\ApiTokenProvider:
         public: true
+        arguments:
+            $baseUrl: '%test_authentication_provider_bundle_users_url%'
 
     SmartAssert\TestAuthenticationProviderBundle\ApiKeyProvider:
         public: true
+        arguments:
+            $baseUrl: '%test_authentication_provider_bundle_users_url%'
