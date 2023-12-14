@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace SmartAssert\TestAuthenticationProviderBundle;
 
+use GuzzleHttp\Psr7\Request;
 use Psr\Http\Client\ClientExceptionInterface;
-use SmartAssert\ServiceClient\Exception\InvalidModelDataException;
-use SmartAssert\ServiceClient\Exception\InvalidResponseDataException;
-use SmartAssert\ServiceClient\Exception\InvalidResponseTypeException;
-use SmartAssert\ServiceClient\Exception\NonSuccessResponseException;
-use SmartAssert\UsersClient\Client;
-use SmartAssert\UsersClient\Model\User;
+use Psr\Http\Client\ClientInterface;
 
+/**
+ * @phpstan-type User array{id: non-empty-string, user_identifier: non-empty-string}
+ */
 class UserProvider
 {
     /**
@@ -20,7 +19,8 @@ class UserProvider
     private array $users = [];
 
     public function __construct(
-        private readonly Client $usersClient,
+        private readonly string $baseUrl,
+        private readonly ClientInterface $httpClient,
         private readonly FrontendTokenProvider $frontendTokenProvider,
     ) {
     }
@@ -28,31 +28,60 @@ class UserProvider
     /**
      * @param non-empty-string $userEmail
      *
+     * @return User
+     *
      * @throws ClientExceptionInterface
-     * @throws InvalidModelDataException
-     * @throws InvalidResponseDataException
-     * @throws InvalidResponseTypeException
-     * @throws NonSuccessResponseException
-     * @throws \RuntimeException
      */
-    public function get(string $userEmail): User
+    public function get(string $userEmail): array
+    {
+        if (!array_key_exists($userEmail, $this->users)) {
+            $this->users[$userEmail] = $this->retrieve($userEmail);
+        }
+
+        return $this->users[$userEmail];
+    }
+
+    /**
+     * @param non-empty-string $email
+     *
+     * @return User
+     *
+     * @throws ClientExceptionInterface
+     */
+    private function retrieve(string $email): array
     {
         try {
-            $frontendToken = $this->frontendTokenProvider->get($userEmail);
+            $frontendToken = $this->frontendTokenProvider->get($email);
         } catch (\RuntimeException) {
             throw new \RuntimeException('User is null');
         }
 
-        if (!array_key_exists($userEmail, $this->users)) {
-            $user = $this->usersClient->verifyFrontendToken($frontendToken->token);
+        $request = new Request(
+            'GET',
+            $this->baseUrl . '/frontend-token/verify',
+            ['authorization' => 'Bearer ' . $frontendToken['token']]
+        );
 
-            if (null === $user) {
-                throw new \RuntimeException('User is null');
-            }
-
-            $this->users[$userEmail] = $user;
+        $response = $this->httpClient->sendRequest($request);
+        if (200 !== $response->getStatusCode()) {
+            throw new \RuntimeException('User is null');
         }
 
-        return $this->users[$userEmail];
+        $responseData = json_decode($response->getBody()->getContents(), true);
+        if (!is_array($responseData)) {
+            throw new \RuntimeException('User is null');
+        }
+
+        $id = $responseData['id'] ?? null;
+        if (!is_string($id) || '' === $id) {
+            throw new \RuntimeException('User is null');
+        }
+
+        $userIdentifier = $responseData['user-identifier'] ?? null;
+        if (!is_string($userIdentifier) || '' === $userIdentifier) {
+            throw new \RuntimeException('User is null');
+        }
+
+        return ['id' => $id, 'user_identifier' => $userIdentifier];
     }
 }

@@ -7,7 +7,6 @@ namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
 use SmartAssert\TestAuthenticationProviderBundle\UserProvider;
-use SmartAssert\UsersClient\Model\User;
 
 class UserProviderTest extends TestCase
 {
@@ -35,8 +34,10 @@ class UserProviderTest extends TestCase
     public function testGetSuccess(string $userEmail): void
     {
         $user = $this->userProvider->get($userEmail);
-        self::assertInstanceOf(User::class, $user);
-        self::assertSame($userEmail, $user->userIdentifier);
+
+        self::assertIsArray($user);
+        self::assertNotEmpty($user['id']);
+        self::assertSame($userEmail, $user['user_identifier']);
     }
 
     /**

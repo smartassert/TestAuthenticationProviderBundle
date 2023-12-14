@@ -58,7 +58,7 @@
     },
     "require": {
         "php": "^8.2",
-        "smartassert/users-client": "*",
+        "guzzlehttp/guzzle": "*",
         "symfony/config": "^6.4 || ^7.0",
         "symfony/dependency-injection": "^6.4 || ^7.0",
         "symfony/http-foundation": "^6.4 || ^7.0",
@@ -66,7 +66,6 @@
         "symfony/yaml": "^6.4 || ^7.0"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "*",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",

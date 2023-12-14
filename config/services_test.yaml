@@ -3,28 +3,12 @@ parameters:
   test_authentication_provider_bundle_frontend_token_provider_users:
     'user1@example.com': 'password'
     'user2@example.com': 'password'
+  test_authentication_provider_bundle_users_url: 'http://localhost:9080'
 
 services:
   _defaults:
     autowire: true
     autoconfigure: true
 
-  SmartAssert\ServiceClient\ResponseFactory\ResponseFactory:
-    factory: ['SmartAssert\ServiceClient\ResponseFactory\ResponseFactory', 'createFactory']
-
-  SmartAssert\ServiceClient\Client: ~
-
-  Psr\Http\Message\RequestFactoryInterface:
-    class: GuzzleHttp\Psr7\HttpFactory
-
   Psr\Http\Client\ClientInterface:
     class: GuzzleHttp\Client
-
-  GuzzleHttp\Psr7\HttpFactory: ~
-
-  Psr\Http\Message\StreamFactoryInterface:
-    alias: GuzzleHttp\Psr7\HttpFactory
-
-  SmartAssert\UsersClient\Client:
-    arguments:
-      $baseUrl: '%users_base_url%'
