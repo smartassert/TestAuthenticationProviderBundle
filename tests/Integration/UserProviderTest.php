@@ -59,7 +59,7 @@ class UserProviderTest extends TestCase
     {
         try {
             $this->userProvider->get('undefined@example.com');
-            self::fail('\\RuntimeException not thrown');
+            self::fail('\RuntimeException not thrown');
         } catch (\RuntimeException $e) {
             self::assertSame('User is null', $e->getMessage());
         }

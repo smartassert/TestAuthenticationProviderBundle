@@ -59,7 +59,7 @@ class FrontendTokenProviderTest extends TestCase
     {
         try {
             $this->provider->get('undefined@example.com');
-            self::fail('\\RuntimeException not thrown');
+            self::fail('\RuntimeException not thrown');
         } catch (\RuntimeException $e) {
             self::assertSame('Invalid user credentials.', $e->getMessage());
         }
