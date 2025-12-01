@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Functional;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\TestAuthenticationProviderBundle\ApiKeyProvider;
 use SmartAssert\TestAuthenticationProviderBundle\ApiTokenProvider;
@@ -26,10 +27,9 @@ class ContainerTest extends TestCase
     }
 
     /**
-     * @dataProvider serviceExistsInContainerDataProvider
-     *
      * @param class-string $id
      */
+    #[DataProvider('serviceExistsInContainerDataProvider')]
     public function testServiceExistsInContainer(string $id): void
     {
         self::assertInstanceOf($id, $this->container->get($id));
