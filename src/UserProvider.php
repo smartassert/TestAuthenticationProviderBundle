@@ -22,8 +22,7 @@ class UserProvider
         private readonly string $baseUrl,
         private readonly ClientInterface $httpClient,
         private readonly FrontendTokenProvider $frontendTokenProvider,
-    ) {
-    }
+    ) {}
 
     /**
      * @param non-empty-string $userEmail

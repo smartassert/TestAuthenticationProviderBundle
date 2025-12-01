@@ -19,8 +19,7 @@ class ApiTokenProvider
         private readonly string $baseUrl,
         private readonly ClientInterface $httpClient,
         private readonly ApiKeyProvider $apiKeyProvider,
-    ) {
-    }
+    ) {}
 
     /**
      * @param non-empty-string $userEmail
