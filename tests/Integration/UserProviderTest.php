@@ -35,7 +35,6 @@ class UserProviderTest extends TestCase
     {
         $user = $this->userProvider->get($userEmail);
 
-        self::assertIsArray($user);
         self::assertNotEmpty($user['id']);
         self::assertSame($userEmail, $user['user_identifier']);
     }
