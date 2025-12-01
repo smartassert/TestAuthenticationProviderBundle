@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SmartAssert\TestAuthenticationProviderBundle\Tests\Integration;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use SmartAssert\TestAuthenticationProviderBundle\FrontendTokenProvider;
 use SmartAssert\TestAuthenticationProviderBundle\Tests\Functional\TestingKernel;
@@ -27,10 +28,9 @@ class FrontendTokenProviderTest extends TestCase
     }
 
     /**
-     * @dataProvider getSuccessDataProvider
-     *
      * @param non-empty-string $userEmail
      */
+    #[DataProvider('getSuccessDataProvider')]
     public function testGetSuccess(string $userEmail): void
     {
         $frontendToken = $this->provider->get($userEmail);
