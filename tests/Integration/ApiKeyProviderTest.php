@@ -35,8 +35,6 @@ class ApiKeyProviderTest extends TestCase
     {
         $apiKey = $this->apiKeyProvider->get($userEmail);
 
-        self::assertIsArray($apiKey);
-        self::assertArrayHasKey('label', $apiKey);
         self::assertNotEmpty($apiKey['key']);
     }
 

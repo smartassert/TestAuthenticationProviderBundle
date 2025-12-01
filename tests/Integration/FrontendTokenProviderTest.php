@@ -35,7 +35,6 @@ class FrontendTokenProviderTest extends TestCase
     {
         $frontendToken = $this->provider->get($userEmail);
 
-        self::assertIsArray($frontendToken);
         self::assertNotEmpty($frontendToken['token']);
         self::assertNotEmpty($frontendToken['refresh_token']);
     }

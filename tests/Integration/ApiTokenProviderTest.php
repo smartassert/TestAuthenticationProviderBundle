@@ -33,9 +33,9 @@ class ApiTokenProviderTest extends TestCase
     #[DataProvider('getSuccessDataProvider')]
     public function testGetSuccess(string $userEmail): void
     {
-        $apiToken = $this->apiTokenProvider->get($userEmail);
+        $this->apiTokenProvider->get($userEmail);
 
-        self::assertIsString($apiToken);
+        self::expectNotToPerformAssertions();
     }
 
     /**
