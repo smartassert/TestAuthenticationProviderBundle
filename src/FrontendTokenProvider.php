@@ -25,8 +25,7 @@ class FrontendTokenProvider
         private readonly array $userCredentials,
         private readonly string $baseUrl,
         private readonly ClientInterface $httpClient,
-    ) {
-    }
+    ) {}
 
     /**
      * @param non-empty-string $userEmail
