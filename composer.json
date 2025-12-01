@@ -34,10 +34,10 @@
         "test-integration": "XDEBUG_MODE=off ./vendor/bin/phpunit --colors=always tests/Integration",
         "test": "@test-functional",
         "users-db-setup": [
-            "docker-compose -f tests/Integration/build/docker-compose.yml exec -T users-service php bin/console doctrine:database:create --if-not-exists",
-            "docker-compose -f tests/Integration/build/docker-compose.yml exec -T users-service php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
+            "docker compose -f tests/Integration/build/docker-compose.yml exec -T users-service php bin/console doctrine:database:create --if-not-exists",
+            "docker compose -f tests/Integration/build/docker-compose.yml exec -T users-service php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration"
         ],
-        "users-generate-jwt-keys": "docker-compose -f tests/Integration/build/docker-compose.yml exec -T users-service php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction",
+        "users-generate-jwt-keys": "docker compose -f tests/Integration/build/docker-compose.yml exec -T users-service php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction",
         "users-create-user": [
             "curl --header 'Authorization: primary_admin_token' --data 'email=user1@example.com&password=password' http://localhost:9080/user/create",
             "curl --header 'Authorization: primary_admin_token' --data 'email=user2@example.com&password=password' http://localhost:9080/user/create",
@@ -48,8 +48,8 @@
             "@users-generate-jwt-keys",
             "@users-create-user"
         ],
-        "integration-up": "docker-compose -f tests/Integration/build/docker-compose.yml  up -d --build",
-        "integration-teardown": "docker-compose -f ./tests/Integration/build/docker-compose.yml down",
+        "integration-up": "docker compose -f tests/Integration/build/docker-compose.yml  up -d --build",
+        "integration-teardown": "docker compose -f ./tests/Integration/build/docker-compose.yml down",
         "integration-setup": [
             "@integration-up",
             "sleep 2",
